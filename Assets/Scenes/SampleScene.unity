@@ -1406,7 +1406,7 @@ MonoBehaviour:
   head: {fileID: 1956846374}
   cam: {fileID: 330585545}
   mousepos: {x: 0, y: 0, z: 0}
-  text: {fileID: 0}
+  text: {fileID: 136512127}
 --- !u!136 &1961192758
 CapsuleCollider:
   m_ObjectHideFlags: 0
