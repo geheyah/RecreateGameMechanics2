@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 mousepos;
     public TMP_Text text;
 
+    public Transform pickupObject;
     private float playerspeed = 10f;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,22 +43,36 @@ public class PlayerMovement : MonoBehaviour
             
             if (movable.CompareTag("Pickup"))
             {
-                var pickup = movable.GetComponent<Transform>();
+                var pickup = movable.transform;
                 text.enabled = true;
                 text.text = "Pick Up";
                 
-                if (Input.GetKey(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    text.text = "Put Down";
-                    pickup.transform.position = mouseworldposition + controller.transform.forward;
+                    pickupObject = pickup;
+                } else if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    if (pickupObject != null)
+                    {
+                        text.text = "Throw";
+                        pickup.transform.position = mouseworldposition + controller.transform.forward;
+                    }
+                }
+                else if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+                    pickupObject = null;
                 }
             }
         }
         
         //Pickup object
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            //pickup.transform.position = mouseworldposition + controller.transform.forward;
+            if (pickupObject != null)
+            {
+                pickupObject.GetComponent<Rigidbody>().AddForce((head.transform.forward * 10f), ForceMode.Impulse);
+                pickupObject = null;
+            }
         }
         //Movement
         if (Input.GetKey(KeyCode.W))
